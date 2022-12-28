@@ -17,7 +17,7 @@ function getAllAtheleteProfiles() {
 }
 
 function getAtheletProfileById(id) {
-  return axios.get(`${apiUrl}/athelete-profile/${id}`).then((res) => res.data);
+  return axios.get(`${apiUrl}/athlete-profile/${id}`).then((res) => res.data);
 }
 
 export {
