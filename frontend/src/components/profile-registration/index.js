@@ -5,13 +5,18 @@ import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import { StepContent } from "@mui/material";
+import Alert from "@mui/material/Alert";
+import { Divider, StepContent } from "@mui/material";
 import { StepItems } from "./step-items";
+import { registerAtheleteProfile } from "../../api";
+import { useNavigate } from "react-router-dom";
 
 const steps = ["Basic Information", "About", "Summary"];
 
 export default function ProfileRegistrationForm() {
   const [activeStep, setActiveStep] = React.useState(0);
+  const [callingApi, setCallingApi] = React.useState(false);
+  const [apiError, setApiError] = React.useState(false);
   const [formState, setFormState] = React.useState({
     basicInfo: {
       name: "",
@@ -26,6 +31,8 @@ export default function ProfileRegistrationForm() {
       profilePicture: "",
     },
   });
+
+  const navigate = useNavigate();
 
   const onChange = (step, payload) => {
     setFormState({ ...formState, [step]: { ...formState[step], ...payload } });
@@ -43,9 +50,26 @@ export default function ProfileRegistrationForm() {
     setActiveStep(0);
   };
 
+  const submitAtheleteProfile = async () => {
+    if (!formState.basicInfo.name || !formState.about.description) return;
+    setCallingApi(true);
+    try {
+      await registerAtheleteProfile({
+        ...formState.basicInfo,
+        ...formState.about,
+      });
+      navigate("/profile-list");
+    } catch (error) {
+      setCallingApi(false);
+      setApiError(true);
+    }
+  };
+
   return (
     <Box sx={{ width: "100%" }}>
-      <Stepper activeStep={activeStep} orientation="vertical">
+      <Typography variant="h5">Register Athelete Profile</Typography>
+      <Divider />
+      <Stepper mt={1} activeStep={activeStep} orientation="vertical">
         {steps.map((label, index) => {
           const StepItem = StepItems[index];
           const stepProps = {};
@@ -72,8 +96,13 @@ export default function ProfileRegistrationForm() {
                       <div>
                         <Button
                           variant="contained"
-                          onClick={handleNext}
+                          onClick={
+                            index === steps.length - 1
+                              ? submitAtheleteProfile
+                              : handleNext
+                          }
                           sx={{ mt: 1, mr: 1 }}
+                          disabled={callingApi}
                         >
                           {index === steps.length - 1 ? "Finish" : "Continue"}
                         </Button>
@@ -93,6 +122,9 @@ export default function ProfileRegistrationForm() {
           );
         })}
       </Stepper>
+      {apiError && (
+        <Alert severity="error">This is an error — check it out!</Alert>
+      )}
     </Box>
   );
 }
