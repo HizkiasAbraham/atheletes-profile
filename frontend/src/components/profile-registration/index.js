@@ -12,21 +12,27 @@ const steps = ["Basic Information", "About", "Summary"];
 
 export default function ProfileRegistrationForm() {
   const [activeStep, setActiveStep] = React.useState(0);
-  const [skipped, setSkipped] = React.useState(new Set());
+  const [formState, setFormState] = React.useState({
+    basicInfo: {
+      name: "",
+      gender: "",
+      dob: "",
+      sport: "",
+    },
+    about: {
+      description: "",
+      location: "",
+      team: "",
+      profilePicture: "",
+    },
+  });
 
-  const isStepSkipped = (step) => {
-    return skipped.has(step);
+  const onChange = (step, payload) => {
+    setFormState({ ...formState, [step]: { ...formState[step], ...payload } });
   };
 
   const handleNext = () => {
-    let newSkipped = skipped;
-    if (isStepSkipped(activeStep)) {
-      newSkipped = new Set(newSkipped.values());
-      newSkipped.delete(activeStep);
-    }
-
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    setSkipped(newSkipped);
   };
 
   const handleBack = () => {
@@ -49,7 +55,7 @@ export default function ProfileRegistrationForm() {
             <Step key={label} {...stepProps}>
               <StepLabel {...labelProps}>{label}</StepLabel>
               <StepContent>
-                <StepItem />
+                <StepItem formState={formState} onChange={onChange} />
                 {activeStep === steps.length ? (
                   <React.Fragment>
                     <Typography sx={{ mt: 2, mb: 1 }}>
