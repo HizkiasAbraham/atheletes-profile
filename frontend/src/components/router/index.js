@@ -1,10 +1,10 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Layout from "./components/layout";
-import ProfileDetail from "./components/profile-detail";
-import ProfileList from "./components/profile-list";
-import ProfileRegistrationForm from "./components/profile-registration";
+import Layout from "../layout";
+import ProfileDetail from "../profile-detail";
+import ProfileInputForm from "../profile-input-form";
+import ProfileList from "../profile-list";
 
 const router = createBrowserRouter([
   {
@@ -14,10 +14,10 @@ const router = createBrowserRouter([
       { path: "/profile-list", element: <ProfileList /> },
       {
         path: "/register-profile",
-        element: <ProfileRegistrationForm />,
+        element: <ProfileInputForm />,
       },
       {
-        path: "/profile-list/:id",
+        path: "profile-list/:id",
         element: <ProfileDetail />,
       },
     ],
