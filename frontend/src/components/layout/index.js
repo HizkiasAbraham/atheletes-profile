@@ -100,6 +100,10 @@ export default function Layout() {
     setOpen(false);
   };
 
+  React.useEffect(() => {
+    navigate("/profile-list");
+  }, []);
+
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
