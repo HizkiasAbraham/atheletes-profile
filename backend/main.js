@@ -12,7 +12,7 @@ const app = express();
 app.use(cors({ origin: "*" }));
 app.use(bodyParser.json());
 app.use("/api/athlete-profile", athleteProfileRoute);
-app.use("/files", filesRoute);
+app.use("/api/files", filesRoute);
 
 connectMongoDB()
   .then((_) => {
