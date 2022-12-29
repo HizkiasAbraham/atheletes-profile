@@ -6,7 +6,7 @@ const headers = {
 
 function registerAtheleteProfile(payload) {
   return axios
-    .post(`${apiUrl}/athlete-profile/register`, payload, { headers })
+    .post(`${apiUrl}/athlete-profile/register`, payload)
     .then((res) => res.data);
 }
 

@@ -51,13 +51,20 @@ export default function ProfileRegistrationForm() {
   };
 
   const submitAtheleteProfile = async () => {
+    const formData = new FormData();
+    formData.append("file", formState.about.profilePicture);
+    formData.append("name", formState.basicInfo.name);
+    formData.append("gender", formState.basicInfo.gender);
+    formData.append("sport", formState.basicInfo.sport);
+    formData.append("dob", formState.basicInfo.dob);
+    formData.append("description", formState.about.description);
+    formData.append("location", formState.about.location);
+    formData.append("team", formState.about.team);
+
     if (!formState.basicInfo.name || !formState.about.description) return;
     setCallingApi(true);
     try {
-      await registerAtheleteProfile({
-        ...formState.basicInfo,
-        ...formState.about,
-      });
+      await registerAtheleteProfile(formData);
       navigate("/profile-list");
     } catch (error) {
       setCallingApi(false);

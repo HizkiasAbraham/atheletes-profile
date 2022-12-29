@@ -2,9 +2,19 @@ const AthleteProfile = require("../models/AthleteProfile");
 const { successResponse, errorResponse } = require("../utils/http-response");
 
 async function registerAthleteProfile(req, res) {
-  const { body } = req;
   try {
-    const result = await AthleteProfile.create(body);
+    const { name, gender, sport, dob, description, location, team } = req.body;
+    const profilePicture = req.file.filename;
+    const result = await AthleteProfile.create({
+      name,
+      gender,
+      sport,
+      dob,
+      description,
+      location,
+      team,
+      profilePicture,
+    });
     successResponse(res, result, 204);
   } catch (error) {
     errorResponse(res, { message: "Error while registering athelete profile" });

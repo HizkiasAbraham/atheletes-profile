@@ -40,9 +40,17 @@ export default function About({ formState, onChange }) {
         />
       </Grid>
       <Grid item xs={12} md={6}>
-        <Button startIcon={<PhotoIcon />} variant="outlined">
-          Profile Picture
-        </Button>
+        Profile picture <br></br>{" "}
+        <input
+          id="profilePicture"
+          onChange={(e) => {
+            onFormInputChange({
+              target: { id: "profilePicture", value: e.target.files[0] },
+            });
+          }}
+          type={"file"}
+        />
+        {formState.about.profilePicture?.name}
       </Grid>
     </Grid>
   );
