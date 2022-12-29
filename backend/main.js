@@ -16,7 +16,6 @@ app.use("/api/files", filesRoute);
 
 connectMongoDB()
   .then((_) => {
-    setupGridfsStream();
     app.listen(port, () => {
       console.log(`Server started listening on port: ${port}`);
     });

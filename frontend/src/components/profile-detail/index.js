@@ -4,10 +4,11 @@ import { useParams } from "react-router-dom";
 import AccountIcon from "@mui/icons-material/Person";
 import React, { useState } from "react";
 import Loading from "../loading";
-import { getAtheletProfileById } from "../../api";
+import { apiUrl, getAtheletProfileById, getProfileImage } from "../../api";
 
 export default function ProfileDetail() {
   const [loading, setLoading] = useState(false);
+  const [img, setImage] = useState("");
   const [data, setData] = useState(null);
   const { id } = useParams();
 
@@ -15,6 +16,8 @@ export default function ProfileDetail() {
     setLoading(true);
     try {
       const result = await getAtheletProfileById(id);
+      const image = await getProfileImage(result.profilePicture);
+      setImage(image.img);
       setData(result);
       setLoading(false);
     } catch (error) {}
@@ -26,6 +29,8 @@ export default function ProfileDetail() {
 
   return (
     <Box sx={{ width: "100%" }}>
+      <img style={{ heigh: 200, width: 200 }} src={img} />
+
       <Typography variant="h5">Athelete Profile detail</Typography>
       <Divider />
       {loading && <Loading />}
