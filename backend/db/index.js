@@ -12,4 +12,11 @@ async function connectMongoDB() {
   }
 }
 
-module.exports = { connectMongoDB };
+async function getCollection(name) {
+  try {
+    const col = await mongoose.connection.db.collection(name);
+    return col;
+  } catch (error) {}
+}
+
+module.exports = { connectMongoDB, getCollection };
