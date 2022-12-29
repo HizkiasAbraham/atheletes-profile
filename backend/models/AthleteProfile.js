@@ -8,7 +8,7 @@ const athleteProfileSchema = new mongoose.Schema({
     type: String,
   },
   dob: {
-    type: String,
+    type: Date,
   },
   sport: {
     type: String,

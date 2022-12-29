@@ -1,10 +1,15 @@
 import { Autocomplete, Grid, TextField } from "@mui/material";
 import { sports } from "../../../constants";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
 export default function BasicInformation({ formState, onChange }) {
-  const onFormInputChange = (e) => {
+  const onFormInputChange = (e, val) => {
     const { id, value } = e.target;
-    onChange("basicInfo", { [id]: value });
+    onChange("basicInfo", {
+      [id.split("-")?.[0]]: id.startsWith("sport-") ? val : value,
+    });
   };
   return (
     <Grid container spacing={2}>
@@ -30,14 +35,17 @@ export default function BasicInformation({ formState, onChange }) {
         />
       </Grid>
       <Grid item xs={12} md={6}>
-        <TextField
-          id="dob"
-          value={formState.basicInfo.dob}
-          onChange={onFormInputChange}
-          label="Date of Birth"
-          variant="outlined"
-          fullWidth
-        />
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <DatePicker
+            id="dob"
+            label="Birth Day"
+            value={formState.basicInfo.dob}
+            onChange={(value) =>
+              onFormInputChange({ target: { id: "dob", value } })
+            }
+            renderInput={(params) => <TextField {...params} fullWidth />}
+          />
+        </LocalizationProvider>
       </Grid>
       <Grid item xs={12} md={6}>
         <Autocomplete

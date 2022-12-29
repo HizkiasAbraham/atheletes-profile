@@ -21,7 +21,7 @@ export default function ProfileRegistrationForm() {
     basicInfo: {
       name: "",
       gender: "",
-      dob: "",
+      dob: new Date(),
       sport: "",
     },
     about: {
